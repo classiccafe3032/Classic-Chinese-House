@@ -111,6 +111,22 @@ router.delete("/:id", adminAuth, async (req, res) => {
       });
     }
 
+    // Attempt to physically delete any soft-deleted items in this category.
+    // This allows the category to be deleted if the items were never ordered.
+    try {
+      await pool.query(
+        "DELETE FROM menu_items WHERE category_id=$1 AND business_id=$2 AND is_deleted = TRUE",
+        [id, req.business_id]
+      );
+    } catch (dbErr) {
+      if (dbErr.code === '23503') { // Foreign key constraint violation
+        return res.status(400).json({
+          error: "Cannot delete category: some deleted items in this category are part of past orders and must be kept for historical receipts.",
+        });
+      }
+      throw dbErr;
+    }
+
     const result = await pool.query("DELETE FROM menu_categories WHERE id=$1 AND business_id=$2 RETURNING id", [id, req.business_id]);
 
     if (result.rowCount === 0) {

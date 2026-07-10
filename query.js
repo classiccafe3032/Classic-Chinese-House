@@ -1,7 +1,7 @@
 const pool = require('./backend/src/db/pool');
 async function run() {
-  const res = await pool.query('SELECT features FROM businesses LIMIT 1');
-  console.log(JSON.stringify(res.rows[0].features, null, 2));
+  const res = await pool.query("SELECT column_name FROM information_schema.columns WHERE table_name='menu_categories'");
+  console.log(res.rows.map(r => r.column_name));
   process.exit(0);
 }
 run();
