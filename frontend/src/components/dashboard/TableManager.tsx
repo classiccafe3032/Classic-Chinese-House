@@ -297,6 +297,12 @@ export default function TableManager({ orders, user, onRefresh, onAdvanceStatus,
           <div className="flex items-center justify-center p-12">
             <Loader2 className="animate-spin w-8 h-8 text-primary" />
           </div>
+        ) : tables.length === 0 ? (
+          <div className="text-center p-16 bg-card border-2 border-dashed border-border rounded-xl text-muted-foreground flex flex-col items-center gap-3">
+             <UtensilsCrossed size={32} className="opacity-30" />
+             <p className="font-medium text-lg">No tables found</p>
+             <p className="text-sm">You haven't added any tables yet. Go to the System tab to set up your floor plan.</p>
+          </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
             {tables.map(table => {
