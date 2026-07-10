@@ -33,6 +33,9 @@ const PORT = process.env.PORT || 4000;
 // 🔥 VERY IMPORTANT FOR RENDER / PROXY
 app.set("trust proxy", 1);
 
+// Health check (Fastest possible response, bypassing all middleware)
+app.get("/api/health", (req, res) => res.status(200).send("ok"));
+
 // ---- CORS ----
 app.use(cors({
   origin: process.env.CORS_ORIGIN || "http://localhost:8080",
@@ -74,9 +77,6 @@ io.on("connection", (socket) => {
     console.log("❌ Socket disconnected:", socket.id);
   });
 });
-
-// Health check
-app.get("/api/health", (_, res) => res.json({ status: "ok" }));
 
 // Urgent flush endpoint
 app.get("/api/flush-redis-urgent", async (req, res) => {
