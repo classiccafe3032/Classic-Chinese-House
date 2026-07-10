@@ -34,12 +34,12 @@ async function resolveToEmbedUrl(raw) {
 
 const DEFAULTS = {
   id: 1,
-  address: "Vishal Nagar, Pune",
-  phone: "+91 7045339273",
-  open_time: "19:00",
+  address: "Kuditre Factory, Koparde, Kolhapur",
+  phone: "+91 9146803032",
+  open_time: "11:00",
   close_time: "23:00",
-  closed_day: 1,
-  opening_hours_display: "Tue - Sun: 7 PM - 11 PM • Mon Closed",
+  closed_day: 5,
+  opening_hours_display: "Mon - Sun: 11 AM - 11 PM || Saturday: Closed",
   instagram_handle: "@classicchinese",
   instagram_url: "https://instagram.com/classicchinese",
   map_embed_url:

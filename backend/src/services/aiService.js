@@ -14,8 +14,8 @@ async function chatWithGroq(messageHistory, businessId) {
     );
     const settings = settingsRes.rows[0] || {
       restaurant_name: "Classic Chinese",
-      address: "Vishal Nagar, Pune",
-      phone: "91 97666 66666"
+      address: "Kuditre Factory, Koparde",
+      phone: "91 9146803032"
     };
 
     const locationRes = await pool.query(
@@ -25,8 +25,8 @@ async function chatWithGroq(messageHistory, businessId) {
     const location = locationRes.rows[0] || {
       open_time: "10:00",
       close_time: "23:00",
-      address: "Vishal Nagar, Pune",
-      phone: "91 97666 66666"
+      address: "Kuditre Factory, Koparde",
+      phone: "91 9146803032"
     };
 
     // 2. Fetch Active Menu Items
