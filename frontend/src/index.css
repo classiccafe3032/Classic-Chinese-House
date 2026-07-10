@@ -1,0 +1,258 @@
+@import "./styles/themes.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 96%; /* Parchment/Ivory */
+    --foreground: 20 20% 15%;
+
+    --card: 40 33% 98%;
+    --card-foreground: 20 20% 15%;
+
+    --popover: 40 33% 98%;
+    --popover-foreground: 20 20% 15%;
+
+    --primary: 354 75% 45%; /* Imperial Red */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 93% 47%; /* Emperor Gold */
+    --secondary-foreground: 20 20% 15%;
+
+    --muted: 40 20% 90%;
+    --muted-foreground: 20 10% 40%;
+
+    --accent: 354 75% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 40 20% 85%;
+    --input: 40 20% 85%;
+    --ring: 354 75% 45%;
+
+    --radius: 0.4rem; /* Sharper edges */
+
+    --mahogany: 15 35% 20%;
+    --parchment: 40 33% 96%;
+    --emperor-gold: 45 93% 47%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 6%; /* Deep Charcoal */
+    --foreground: 40 30% 92%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 40 30% 92%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 40 30% 92%;
+
+    --primary: 354 85% 54%; /* Brightened Crimson */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 93% 55%; /* Brightened Gold */
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 0 0% 16%;
+    --muted-foreground: 40 20% 65%;
+
+    --accent: 354 85% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 354 85% 54%;
+
+    --mahogany: 0 0% 8%;
+    --parchment: 40 20% 85%;
+    --emperor-gold: 45 93% 55%;
+
+    --sidebar-background: 20 10% 10%;
+    --sidebar-foreground: 38 30% 85%;
+    --sidebar-primary: 0 0% 95%;
+    --sidebar-primary-foreground: 20 10% 10%;
+    --sidebar-accent: 20 10% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 20 10% 20%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body {
+    /* overflow-x-hidden removed to fix position: sticky bug */
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+
+  /* Fix for native date picker calendar icon in dark mode */
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(0.8);
+  }
+
+  /* Prevent iOS Safari auto-zoom on inputs by ensuring font-size is at least 16px on mobile */
+  @media screen and (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="password"],
+    input[type="search"],
+    textarea,
+    select {
+      font-size: 16px !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-xl;
+  }
+
+  .section-padding {
+    @apply py-8 md:py-24 px-4 md:px-8;
+  }
+
+  .chinese-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h18v2H22v18H0v-2h20v-2H0v-2h20v-2H0v-2h20v-2H0v-2h20v-2z' fill='currentColor' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Floating orbs animation */
+@keyframes float-orb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-10px, -40px) scale(0.95); }
+  75% { transform: translate(-30px, -10px) scale(1.02); }
+}
+
+@keyframes ember-float {
+  0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
+  50% { transform: translateY(-50px) scale(1.2) rotate(180deg); opacity: 0.8; }
+  100% { transform: translateY(-100px) scale(0.8) rotate(360deg); opacity: 0; }
+}
+
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--secondary) / 0.3); }
+  50% { box-shadow: 0 0 40px hsl(var(--secondary) / 0.6); }
+}
+
+@keyframes shimmer-drift {
+  0% { transform: translateX(-100%) rotate(15deg); }
+  100% { transform: translateX(200%) rotate(15deg); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-ember {
+  animation: ember-float 6s ease-in infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float-orb {
+  animation: float-orb 8s ease-in-out infinite;
+}
+
+.animate-shimmer-drift {
+  animation: shimmer-drift 6s ease-in-out infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global slim scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Specific class if needed */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--muted-foreground) / 0.5);
+}

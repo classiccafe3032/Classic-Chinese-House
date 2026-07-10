@@ -1,0 +1,66 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm install --legacy-peer-deps
+
+      - name: Build Web Assets
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Sync Capacitor
+        working-directory: ./frontend
+        run: npx cap sync android
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Build Release APK
+        working-directory: ./frontend/android
+        run: ./gradlew assembleRelease
+
+      - name: Sign APK
+        working-directory: ./frontend/android/app/build/outputs/apk/release
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode --ignore-garbage > my-release-key.jks
+          
+          # Find the latest build tools directory automatically
+          BUILD_TOOLS_DIR=$(ls -d /usr/local/lib/android/sdk/build-tools/* | tail -1)
+          
+          # Align the APK (Android requires this before signing)
+          $BUILD_TOOLS_DIR/zipalign -v -p 4 app-release-unsigned.apk app-release-aligned.apk
+          
+          # Sign the APK securely
+          $BUILD_TOOLS_DIR/apksigner sign --ks my-release-key.jks --ks-key-alias $KEY_ALIAS --ks-pass pass:$KEYSTORE_PASSWORD --key-pass pass:$KEY_PASSWORD --out TCH-Release.apk app-release-aligned.apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: The-Chinese-House-POS-App
+          path: frontend/android/app/build/outputs/apk/release/TCH-Release.apk

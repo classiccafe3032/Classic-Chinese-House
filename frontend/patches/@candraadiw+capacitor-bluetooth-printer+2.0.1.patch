@@ -1,0 +1,42 @@
+diff --git a/node_modules/@candraadiw/capacitor-bluetooth-printer/android/src/main/java/dev/caw/capacitor/bluetoothprinter/BluetoothPrinterPlugin.java b/node_modules/@candraadiw/capacitor-bluetooth-printer/android/src/main/java/dev/caw/capacitor/bluetoothprinter/BluetoothPrinterPlugin.java
+index 58061cb..173b3ae 100644
+--- a/node_modules/@candraadiw/capacitor-bluetooth-printer/android/src/main/java/dev/caw/capacitor/bluetoothprinter/BluetoothPrinterPlugin.java
++++ b/node_modules/@candraadiw/capacitor-bluetooth-printer/android/src/main/java/dev/caw/capacitor/bluetoothprinter/BluetoothPrinterPlugin.java
+@@ -13,7 +13,7 @@ public class BluetoothPrinterPlugin extends Plugin {
+     private BluetoothPrinter implementation = new BluetoothPrinter();
+ 
+     @PluginMethod
+-    public void list(PluginCall call) throws JSONException {
++    public void listDevices(PluginCall call) throws JSONException {
+         try {
+             JSObject ret = new JSObject();
+             ret.put("devices", implementation.list(getContext()));
+diff --git a/node_modules/@candraadiw/capacitor-bluetooth-printer/package.json b/node_modules/@candraadiw/capacitor-bluetooth-printer/package.json
+index 61e4a29..d2c2dd3 100644
+--- a/node_modules/@candraadiw/capacitor-bluetooth-printer/package.json
++++ b/node_modules/@candraadiw/capacitor-bluetooth-printer/package.json
+@@ -4,9 +4,9 @@
+   "description": "Bluetooth printer plugin for Capacitor v7+ with Electron and Web fallback",
+   "author": "candraadiw",
+   "license": "MIT",
+-  "main": "dist/plugin.cjs.js",
+-  "module": "dist/plugin.esm.js",
+-  "types": "dist/esm/definitions.d.ts",
++  "main": "dist/index.cjs.js",
++  "module": "dist/index.esm.js",
++  "types": "dist/esm/index.d.ts",
+   "files": [
+     "dist/",
+     "android/",
+@@ -36,6 +36,11 @@
+     "type": "git",
+     "url": "git+https://gitlab.com/CandraAdiW/capacitor-bluetooth-printer.git"
+   },
++  "capacitor": {
++    "android": {
++      "src": "android"
++    }
++  },
+   "keywords": [
+     "capacitor",
+     "plugin",
