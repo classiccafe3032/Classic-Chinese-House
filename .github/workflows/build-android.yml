@@ -57,7 +57,7 @@ jobs:
           $BUILD_TOOLS_DIR/zipalign -v -p 4 app-release-unsigned.apk app-release-aligned.apk
           
           # Sign the APK securely
-          $BUILD_TOOLS_DIR/apksigner sign --ks my-release-key.jks --ks-key-alias $KEY_ALIAS --ks-pass pass:$KEYSTORE_PASSWORD --key-pass pass:$KEY_PASSWORD --out TCH-Release.apk app-release-aligned.apk
+          $BUILD_TOOLS_DIR/apksigner sign --ks my-release-key.jks --ks-key-alias "$KEY_ALIAS" --ks-pass "pass:$KEYSTORE_PASSWORD" --key-pass "pass:$KEY_PASSWORD" --out TCH-Release.apk app-release-aligned.apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
