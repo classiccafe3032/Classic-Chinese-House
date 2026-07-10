@@ -620,7 +620,7 @@ const Dashboard = () => {
 };
 
 const DashboardContent = ({ user, onLogout }: { user: AuthUser, onLogout: () => void }) => {
-  const { orders, refreshOrders, optimisticUpdateStatus, unlockOrder } = useOrders(true);
+  const { orders, refreshOrders, optimisticUpdateStatus, unlockOrder, isRefreshing } = useOrders(true);
 
   useAutoPrint(orders);
   const [updatingOrders, setUpdatingOrders] = useState<Record<string, boolean>>(
@@ -939,10 +939,11 @@ const DashboardContent = ({ user, onLogout }: { user: AuthUser, onLogout: () => 
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => refreshOrders()}
-                      className="p-1.5 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition shadow-sm"
+                      disabled={isRefreshing}
+                      className={`p-1.5 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition shadow-sm ${isRefreshing ? 'opacity-50 cursor-not-allowed' : ''}`}
                       title="Refresh Orders"
                     >
-                      <RefreshCw size={16} />
+                      <RefreshCw size={16} className={isRefreshing ? "animate-spin" : ""} />
                     </button>
                     <select
                       value={sourceFilter}

@@ -8,11 +8,13 @@ import { socket } from "@/lib/socket";
 
 export function useOrders(todayOnly = true) {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Track order IDs currently being optimistically updated
   const lockedIdsRef = useRef<Set<string>>(new Set());
 
   const refreshOrders = useCallback(async () => {
+    setIsRefreshing(true);
     try {
       const data = todayOnly
         ? await apiGetTodayOrders()
@@ -33,6 +35,8 @@ export function useOrders(todayOnly = true) {
       });
     } catch (err) {
       console.error("Failed to fetch orders:", err);
+    } finally {
+      setIsRefreshing(false);
     }
   }, [todayOnly]);
 
@@ -70,5 +74,5 @@ export function useOrders(todayOnly = true) {
     };
   }, [refreshOrders]);
 
-  return { orders, refreshOrders, optimisticUpdateStatus, unlockOrder };
+  return { orders, refreshOrders, optimisticUpdateStatus, unlockOrder, isRefreshing };
 }
