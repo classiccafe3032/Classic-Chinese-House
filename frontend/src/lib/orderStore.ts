@@ -55,7 +55,7 @@ const TOKEN_KEY = "chinese_house_next_token";
 const BUSINESS_SETTINGS_KEY = "chinese_house_business_settings";
 
 const DEFAULT_BUSINESS_SETTINGS: StoredBusinessSettings = {
-  restaurantName: "The Chinese House",
+  restaurantName: "Classic Chinese",
   gstin: null,
   address: "",
   phone: "",

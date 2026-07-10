@@ -133,7 +133,7 @@ router.post("/create-paid", async (req, res) => {
     // SEND SMS AFTER COMMIT
     const message = `
 
-      🎉 The Chinese House Voucher!
+      🎉 Classic Chinese Voucher!
 
       Code: ${code}
       Value: ₹${amount}
@@ -305,7 +305,7 @@ router.post("/admin-share-sms", auth, async (req, res) => {
       ? `\nValid till: ${new Date(coupon.expiry_date).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}`
       : "";
 
-    const message = `🍜 The Chinese House Coupon!\n\nCode: ${coupon.code}\nDiscount: ${valueText}${expiryText}\n\nApply at checkout on your next order. Enjoy! 🎉`;
+    const message = `🍜 Classic Chinese Coupon!\n\nCode: ${coupon.code}\nDiscount: ${valueText}${expiryText}\n\nApply at checkout on your next order. Enjoy! 🎉`;
 
     await sendSMS(phone.trim(), message);
 

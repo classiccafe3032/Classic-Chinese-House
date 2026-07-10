@@ -1140,12 +1140,12 @@ ALTER TABLE ONLY public.table_sessions
 
 -- 1. Create a default business
 INSERT INTO public.businesses (id, name, slug, subscription_tier, is_active) 
-VALUES ('00000000-0000-0000-0000-000000000001', 'The Chinese House', 'the-chinese-house', 'premium', true)
+VALUES ('00000000-0000-0000-0000-000000000001', 'Classic Chinese', 'classic-chinese', 'premium', true)
 ON CONFLICT DO NOTHING;
 
 -- 2. Create default business settings
 INSERT INTO public.business_settings (id, business_id, restaurant_name, is_gst_enabled)
-VALUES (1, '00000000-0000-0000-0000-000000000001', 'The Chinese House', false)
+VALUES (1, '00000000-0000-0000-0000-000000000001', 'Classic Chinese', false)
 ON CONFLICT DO NOTHING;
 
 -- 3. Create the Default Admin (Password: admin123)

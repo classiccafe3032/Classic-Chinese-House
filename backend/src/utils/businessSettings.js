@@ -2,7 +2,7 @@ const pool = require("../db/pool");
 const { DEFAULT_CGST_RATE, DEFAULT_SGST_RATE } = require("./gst");
 
 const GSTIN_REGEX = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
-const DEFAULT_RESTAURANT_NAME = "The Chinese House";
+const DEFAULT_RESTAURANT_NAME = "Classic Chinese";
 
 function normalizeBusinessSettings(row = {}) {
   // Default dynamic landing page content
@@ -15,16 +15,16 @@ function normalizeBusinessSettings(row = {}) {
       { icon: "Users", title: "Family Dining", desc: "Ideal for sharing delicious moments together" },
       { icon: "Sparkles", title: "Wok Hei Flavor", desc: "Served hot and fresh straight from the sizzling wok" }
     ],
-    why_choose_us_title: `Why Choose <span class='text-secondary'>${row.restaurant_name || "The Chinese House"}</span>`,
+    why_choose_us_title: `Why Choose <span class='text-secondary'>${row.restaurant_name || "Classic Chinese"}</span>`,
     why_choose_us_cards: [
       { icon: "ChefHat", title: "Freshly Prepared", desc: "Every dish prepared fresh from the wok" },
       { icon: "Award", title: "Authentic Ingredients", desc: "Traditional Chinese herbs and spices" },
       { icon: "Utensils", title: "Skilled Chefs", desc: "Trained wok masters perfecting the heat" },
       { icon: "Camera", title: "Perfect Ambience", desc: "Elegant and comfortable oriental vibes" }
     ],
-    gallery_title: `A Glimpse of <span class='text-primary'>${row.restaurant_name || "The Chinese House"}</span>`,
+    gallery_title: `A Glimpse of <span class='text-primary'>${row.restaurant_name || "Classic Chinese"}</span>`,
     gift_voucher_title: "Gift a Dining Voucher 🧧",
-    gift_voucher_description: `Surprise someone special with a ${row.restaurant_name || "The Chinese House"} gift voucher. Choose any amount starting from ₹100, customize the code, and share it instantly via WhatsApp!`,
+    gift_voucher_description: `Surprise someone special with a ${row.restaurant_name || "Classic Chinese"} gift voucher. Choose any amount starting from ₹100, customize the code, and share it instantly via WhatsApp!`,
     menu_title: "OUR MENU",
     menu_main_title: `Signature <span class='text-primary'>Dishes</span>`,
     menu_description: "From classic starters to sizzling main courses, every dish is a masterpiece. Sorted by highest ratings."

@@ -136,7 +136,7 @@ router.post("/", async (req, res) => {
 
         if (adminEmail) {
           await resend.emails.send({
-            from: "The Chinese House System <onboarding@resend.dev>",
+            from: "Classic Chinese System <onboarding@resend.dev>",
             to: adminEmail,
             subject: `⚠️ URGENT: Bad Review Received - ${restaurantName}`,
             html: `

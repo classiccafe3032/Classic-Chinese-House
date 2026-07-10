@@ -53,7 +53,7 @@ function AnimatedRoutes() {
       <ErrorBoundary>
         <Suspense fallback={<PageLoader />}>
           <Routes location={location} key={location.pathname}>
-            {/* Direct Chinese House Routes */}
+            {/* Direct Classic Chinese Routes */}
             <Route path="/" element={<PageTransition><Index /></PageTransition>} />
             <Route path="/order" element={<PageTransition><OrderPage /></PageTransition>} />
             <Route path="/reviews" element={<PageTransition><ItemReviewsPage /></PageTransition>} />

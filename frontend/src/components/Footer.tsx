@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="max-w-sm">
             <h3 className="font-heading text-2xl font-bold tracking-wide mb-4">
-              {settings?.restaurantName || "The Chinese House"}
+              {settings?.restaurantName || "Classic Chinese"}
             </h3>
 
             <p className="text-cream/70 dark:text-muted-foreground text-sm leading-relaxed">
@@ -76,7 +76,7 @@ const Footer = () => {
 
         {/* Bottom */}
         <div className="border-t border-cream/10 dark:border-border mt-10 pt-5 flex flex-col md:flex-row justify-between items-center text-xs text-cream/50 dark:text-muted-foreground">
-          <p>© {new Date().getFullYear()} {settings?.restaurantName || "The Chinese House"}. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {settings?.restaurantName || "Classic Chinese"}. All rights reserved.</p>
 
           <p className="mt-2 md:mt-0 uppercase tracking-wide">
             {settings?.phone && `Connect with us: ${settings.phone}`}

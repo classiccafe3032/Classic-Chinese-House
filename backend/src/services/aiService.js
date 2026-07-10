@@ -13,7 +13,7 @@ async function chatWithGroq(messageHistory, businessId) {
       [businessId]
     );
     const settings = settingsRes.rows[0] || {
-      restaurant_name: "The Chinese House",
+      restaurant_name: "Classic Chinese",
       address: "Vishal Nagar, Pune",
       phone: "91 97666 66666"
     };

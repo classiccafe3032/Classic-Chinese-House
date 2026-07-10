@@ -97,7 +97,7 @@ export function buildReceiptCanvas(data: ReceiptData): HTMLCanvasElement {
   const ctx = canvas.getContext("2d")!;
 
   const businessLines = [
-    data.business?.restaurantName || "The Chinese House",
+    data.business?.restaurantName || "Classic Chinese",
     data.business?.gstin ? `GSTIN: ${data.business.gstin}` : null,
     data.business?.address || null,
   ].filter(Boolean) as string[];
@@ -469,7 +469,7 @@ export function buildZReportCanvas(data: ZReportData): HTMLCanvasElement {
   ctx.fillStyle = "#111827";
   ctx.font = `bold 20px ${FONT}`;
   ctx.textAlign = "center";
-  ctx.fillText(data.business?.restaurantName || "The Chinese House", W / 2, y);
+  ctx.fillText(data.business?.restaurantName || "Classic Chinese", W / 2, y);
   y += 24;
 
   ctx.font = `bold 16px ${FONT}`;

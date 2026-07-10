@@ -7,7 +7,7 @@ async function sendEmailOTP(toEmail, otpCode, purpose = "Verification") {
 
   const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; text-align: center;">
-      <h2 style="color: #333;">The Chinese House</h2>
+      <h2 style="color: #333;">Classic Chinese</h2>
       <p style="font-size: 16px; color: #555;">Here is your ${purpose} code:</p>
       <div style="font-size: 32px; font-weight: bold; letter-spacing: 4px; color: #e11d48; margin: 20px 0; padding: 15px; background: #fff1f2; border-radius: 8px;">
         ${otpCode}
@@ -20,9 +20,9 @@ async function sendEmailOTP(toEmail, otpCode, purpose = "Verification") {
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
     
     await resend.emails.send({
-      from: `The Chinese House <${fromEmail}>`,
+      from: `Classic Chinese <${fromEmail}>`,
       to: toEmail,
-      subject: `${purpose} Code - The Chinese House`,
+      subject: `${purpose} Code - Classic Chinese`,
       html: htmlContent
     });
     

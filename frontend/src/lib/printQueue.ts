@@ -186,7 +186,7 @@ class PrintQueue {
       console.log("[PrintQueue] Dispatching Native Bluetooth Print for Capacitor");
       
       let businessData: { restaurantName: string; address?: string; phone?: string; gstin?: string | null } = { 
-        restaurantName: "The Chinese House"
+        restaurantName: "Classic Chinese"
       };
       
       const now = Date.now();
@@ -195,7 +195,7 @@ class PrintQueue {
           const settings = await apiGetBusinessSettings();
           this.cachedPrinterWidth = settings.printerWidth || "58mm";
           this.cachedBusinessData = {
-            restaurantName: settings.restaurantName || "The Chinese House",
+            restaurantName: settings.restaurantName || "Classic Chinese",
             address: settings.address,
             phone: settings.phone,
             gstin: settings.gstin

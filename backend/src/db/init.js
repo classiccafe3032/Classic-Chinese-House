@@ -37,7 +37,7 @@ ALTER TABLE menu_items
 
 INSERT INTO business_settings (id, restaurant_name, address, phone, email, is_gst_enabled, cgst_rate, sgst_rate)
 SELECT 1,
-       'The Chinese House',
+       'Classic Chinese',
        COALESCE((SELECT address FROM location_content WHERE id = 1), ''),
        COALESCE((SELECT phone FROM location_content WHERE id = 1), ''),
        '',

@@ -172,7 +172,7 @@ const TokenDisplay = () => {
             const readyOrder = data.find((o) => o.id === id);
             if (!readyOrder) return;
 
-            new Notification("The Chinese House", {
+            new Notification("Classic Chinese", {
               body: ` Your order with Token #${readyOrder.token} is ready!`,
               icon: "/favicon.png",
             });

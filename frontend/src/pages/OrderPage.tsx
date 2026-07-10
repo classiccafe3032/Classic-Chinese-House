@@ -1462,7 +1462,7 @@ function OrderPageContent({
           >
             <ArrowLeft size={18} className="shrink-0 sm:w-5 sm:h-5" />
             <span className="font-heading text-base sm:text-xl font-bold leading-tight truncate min-w-0">
-              <span className="text-primary truncate block">{businessSettings?.restaurantName || "The Chinese House"}</span>
+              <span className="text-primary truncate block">{businessSettings?.restaurantName || "Classic Chinese"}</span>
             </span>
             {isTableMode && tableNumber && (
               <span className="ml-0.5 sm:ml-2 px-1.5 sm:px-2 py-0.5 rounded-full bg-primary/20 text-primary text-[10px] sm:text-xs font-bold border border-primary/30 shadow-sm shrink-0 whitespace-nowrap">

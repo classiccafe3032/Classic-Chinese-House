@@ -69,7 +69,7 @@ const Gallery = () => {
             <span className="text-secondary font-semibold text-sm uppercase tracking-wider">Gallery</span>
             <h2 
               className="text-3xl md:text-5xl font-heading font-bold mt-3 mb-4"
-              dangerouslySetInnerHTML={{ __html: content?.gallery_title || `A Glimpse of <span class='text-primary'>${settings?.restaurantName || "The Chinese House"}</span>` }}
+              dangerouslySetInnerHTML={{ __html: content?.gallery_title || `A Glimpse of <span class='text-primary'>${settings?.restaurantName || "Classic Chinese"}</span>` }}
             />
           </div>
         </ScrollReveal>

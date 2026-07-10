@@ -22,7 +22,7 @@ const GiftVoucherCTA = () => {
                   {content?.gift_voucher_title || "Gift a Voucher 🎁"}
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  {content?.gift_voucher_description || `Surprise someone special with a ${settings?.restaurantName || "The Chinese House"} gift voucher. Choose any amount starting from ₹100, customize the code, and share it instantly via WhatsApp!`}
+                  {content?.gift_voucher_description || `Surprise someone special with a ${settings?.restaurantName || "Classic Chinese"} gift voucher. Choose any amount starting from ₹100, customize the code, and share it instantly via WhatsApp!`}
                 </p>
               </div>
             </div>

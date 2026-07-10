@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
         location_tag: "🍜Pune",
         title: "Authentic <span>Chinese Cuisine</span> in Pune",
         description:
-          "Traditional flavors. Sizzling wok dishes. Fresh ingredients. Experience the finest culinary journey at The Chinese House.",
+          "Traditional flavors. Sizzling wok dishes. Fresh ingredients. Experience the finest culinary journey at Classic Chinese.",
         image_url: null,
       };
 

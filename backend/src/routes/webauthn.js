@@ -13,7 +13,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 // RP Info Helper
-const rpName = "The Chinese House Admin";
+const rpName = "Classic Chinese Admin";
 
 function getRPInfo(req) {
   // Use the origin header sent by the browser, fallback to env variable or localhost

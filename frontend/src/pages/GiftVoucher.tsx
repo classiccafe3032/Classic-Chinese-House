@@ -80,7 +80,7 @@ export default function GiftVoucher() {
 function shareWhatsApp() {
   if (!voucher) return;
 
-  const text = `🎁 Hey! I got you a treat from The Chinese House! 🍜
+  const text = `🎁 Hey! I got you a treat from Classic Chinese! 🍜
 
 Use this gift voucher when you visit the store and order from the online menu.
 

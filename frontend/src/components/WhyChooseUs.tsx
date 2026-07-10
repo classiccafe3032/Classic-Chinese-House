@@ -25,7 +25,7 @@ const WhyChooseUs = () => {
             <span className="text-secondary font-semibold text-sm uppercase tracking-wider">Why Us</span>
             <h2 
               className="text-3xl md:text-5xl font-heading font-bold mt-3 mb-4"
-              dangerouslySetInnerHTML={{ __html: content?.why_choose_us_title || `Why Choose <span class='text-secondary'>${settings?.restaurantName || "The Chinese House"}</span>` }}
+              dangerouslySetInnerHTML={{ __html: content?.why_choose_us_title || `Why Choose <span class='text-secondary'>${settings?.restaurantName || "Classic Chinese"}</span>` }}
             />
           </div>
         </ScrollReveal>

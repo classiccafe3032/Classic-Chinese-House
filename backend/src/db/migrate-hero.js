@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS hero_content (
   id INTEGER PRIMARY KEY DEFAULT 1,
   location_tag TEXT NOT NULL DEFAULT '🍜 Koregaon Park, Pune',
   title TEXT NOT NULL DEFAULT 'Authentic <span>Chinese Cuisine</span> in Koregaon Park',
-  description TEXT NOT NULL DEFAULT 'Traditional flavors. Sizzling wok dishes. Fresh ingredients. Experience the finest culinary journey at The Chinese House.',
+  description TEXT NOT NULL DEFAULT 'Traditional flavors. Sizzling wok dishes. Fresh ingredients. Experience the finest culinary journey at Classic Chinese.',
   image_url TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
   updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,

@@ -1,4 +1,4 @@
-package com.thechinesehouse.pos;
+package com.classicchinese.pos;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

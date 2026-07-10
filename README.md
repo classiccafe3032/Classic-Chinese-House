@@ -1,7 +1,7 @@
-🍜 The Chinese House - Restaurant Management & Ordering System
+🍜 Classic Chinese - Restaurant Management & Ordering System
 ========================================================
 
-A complete, end-to-end **Restaurant Ordering & Management System** built for **The Chinese House**. Designed to simplify table management, streamline kitchen operations, and give the owner full control through a modern, responsive admin dashboard. 
+A complete, end-to-end **Restaurant Ordering & Management System** built for **Classic Chinese**. Designed to simplify table management, streamline kitchen operations, and give the owner full control through a modern, responsive admin dashboard. 
 
 This system empowers customers to place orders directly from their tables via QR codes, provides counter staff with a seamless POS interface, and offers real-time order tracking through a Kitchen Display System (KDS), a customer-facing Token Display, and an intelligent **AI Chatbot**.
 
@@ -23,7 +23,7 @@ This system empowers customers to place orders directly from their tables via QR
 
 ## 🎯 Purpose of the Project
 
-This project was developed to digitize and optimize **The Chinese House** restaurant operations where:
+This project was developed to digitize and optimize **Classic Chinese** restaurant operations where:
 
 *   Wait times need to be reduced via direct-to-kitchen digital ordering.
 *   Counter staff need a rapid POS system for walk-in customers.
@@ -137,7 +137,7 @@ Extensive documentation is available for developers and users:
 **Harshvardhan**
 Software Developer 🚀
 
-Built specifically for **The Chinese House**.
+Built specifically for **Classic Chinese**.
 
 ---
 

@@ -1,4 +1,4 @@
-# The Chinese House - Backend API
+# Classic Chinese - Backend API
 
 Express.js + PostgreSQL backend for the restaurant management system.
 

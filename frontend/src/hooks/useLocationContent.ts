@@ -11,8 +11,8 @@ export const useLocationContent = () => {
     close_time: "23:00:00",
     closed_day: 1,
     opening_hours_display: "Tue - Sun: 7 PM - 11 PM • Mon Closed",
-    instagram_handle: "@thechinesehouse",
-    instagram_url: "https://www.instagram.com/thechinesehouse",
+    instagram_handle: "@classicchinese",
+    instagram_url: "https://www.instagram.com/classicchinese",
     map_embed_url: "",
   };
 

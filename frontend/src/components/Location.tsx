@@ -36,7 +36,7 @@ const Location = () => {
             </span>
 
             <h2 className="text-3xl md:text-5xl font-heading font-bold mt-3 mb-4">
-              Find <span className="text-primary">{settings?.restaurantName || "The Chinese House"}</span>
+              Find <span className="text-primary">{settings?.restaurantName || "Classic Chinese"}</span>
             </h2>
           </div>
         </ScrollReveal>
@@ -55,7 +55,7 @@ const Location = () => {
                   height="100%"
                   style={{ border: 0 }}
                   loading="lazy"
-                  title="The Chinese House Location"
+                  title="Classic Chinese Location"
                 />
 
                 <button

@@ -20,9 +20,9 @@ export default defineConfig(({ mode }) => ({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.png', 'robots.txt', 'alert.wav'],
       manifest: {
-        name: 'The Chinese House POS',
-        short_name: 'TCH POS',
-        description: 'The Chinese House Restaurant Management System',
+        name: 'Classic Chinese POS',
+        short_name: 'CC POS',
+        description: 'Classic Chinese Restaurant Management System',
         theme_color: '#0f0f0f',
         background_color: '#0f0f0f',
         start_url: '/dashboard',

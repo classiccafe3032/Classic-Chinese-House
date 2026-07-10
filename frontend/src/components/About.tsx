@@ -22,7 +22,7 @@ const About = () => {
             />
             
             <p className="text-muted-foreground text-sm md:text-lg leading-relaxed">
-              {content?.about_description || `${settings?.restaurantName || "The Chinese House"} brings authentic Chinese dining culture to you. From classic dim sums to sizzling hot main courses, we serve happiness in every bite.`}
+              {content?.about_description || `${settings?.restaurantName || "Classic Chinese"} brings authentic Chinese dining culture to you. From classic dim sums to sizzling hot main courses, we serve happiness in every bite.`}
             </p>
           </div>
         </ScrollReveal>

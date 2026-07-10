@@ -147,5 +147,5 @@ app.use("/api/webauthn", webauthnRoutes);
 
 // ---- Start Server ----
 server.listen(PORT, () => {
-  console.log(`🍜 The Chinese House backend running on port ${PORT}`);
+  console.log(`🍜 Classic Chinese backend running on port ${PORT}`);
 });

@@ -542,7 +542,7 @@ const AccountSecurity = () => {
                   type="email"
                   value={newEmail}
                   onChange={(e) => { setNewEmail(e.target.value); setError(""); }}
-                  placeholder="e.g. admin@thechinesehouse.com"
+                  placeholder="e.g. admin@classicchinese.com"
                   className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-ring focus:outline-none text-base md:text-sm"
                   disabled={submitting}
                 />

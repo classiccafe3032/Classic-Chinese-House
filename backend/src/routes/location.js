@@ -40,8 +40,8 @@ const DEFAULTS = {
   close_time: "23:00",
   closed_day: 1,
   opening_hours_display: "Tue - Sun: 7 PM - 11 PM • Mon Closed",
-  instagram_handle: "@thechinesehouse",
-  instagram_url: "https://instagram.com/thechinesehouse",
+  instagram_handle: "@classicchinese",
+  instagram_url: "https://instagram.com/classicchinese",
   map_embed_url:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.7146848788047!2d73.781651!3d18.5868975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b90455ed4a49%3A0xc2b269cc14a380d7!2sThe%20Chinese%20House!5e0!3m2!1sen!2sin!4v1781237428223!5m2!1sen!2sin",
 };

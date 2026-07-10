@@ -16,7 +16,7 @@ export async function downloadInvoicePdf(data: ReceiptData) {
   let y = margin;
 
   const restaurantName =
-    data.business?.restaurantName || "The Chinese House";
+    data.business?.restaurantName || "Classic Chinese";
   const gstin = data.business?.gstin;
   const address = data.business?.address;
 

@@ -16,7 +16,7 @@ const Hero = () => {
     id: 1,
     location_tag: "🍜Pune",
     title: "Authentic <span>Chinese Cuisine</span> in Pune",
-    description: "Traditional flavors. Sizzling wok dishes. Fresh ingredients. Experience the finest culinary journey at The Chinese House.",
+    description: "Traditional flavors. Sizzling wok dishes. Fresh ingredients. Experience the finest culinary journey at Classic Chinese.",
     image_url: null,
   };
 
@@ -139,7 +139,7 @@ const Hero = () => {
           <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
             <LazyImage
               src={image}
-              alt="Delicious Asian cuisine at The Chinese House"
+              alt="Delicious Asian cuisine at Classic Chinese"
               className="w-full h-[280px] md:h-[500px] object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />

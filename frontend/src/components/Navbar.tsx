@@ -110,7 +110,7 @@ const Navbar = () => {
               }
               className="font-heading text-xl font-bold text-primary"
             >
-              {settings?.restaurantName || "The Chinese House"}
+              {settings?.restaurantName || "Classic Chinese"}
             </a>
 
             {/* Desktop */}

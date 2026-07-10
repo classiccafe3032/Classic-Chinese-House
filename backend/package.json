@@ -1,7 +1,7 @@
 {
-  "name": "the-chinese-house-backend",
+  "name": "classic-chinese-backend",
   "version": "1.0.0",
-  "description": "The Chinese House - Backend API",
+  "description": "Classic Chinese - Backend API",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",

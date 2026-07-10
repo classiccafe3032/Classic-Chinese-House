@@ -289,7 +289,7 @@ router.post("/", async (req, res) => {
 
     await client.query("COMMIT");
 
-    const message = `The Chinese House 🍜
+    const message = `Classic Chinese 🍜
 
 Hello ${name},
 

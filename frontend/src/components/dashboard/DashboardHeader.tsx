@@ -16,7 +16,7 @@ const DashboardHeader = ({
     <header className="py-1">
       <div className="container mx-auto flex items-center justify-between py-3 px-4">
         <h1 className="font-heading text-xl font-bold">
-          <span className="text-primary">Chinese House</span>{" "}
+          <span className="text-primary">Classic Chinese</span>{" "}
           <span className="text-secondary">Dashboard</span>
         </h1>
 

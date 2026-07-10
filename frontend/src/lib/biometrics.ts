@@ -54,7 +54,7 @@ export async function authenticateWithBiometrics(): Promise<any> {
     if (!biometricToken) throw new Error('No biometric token saved on device');
 
     await NativeBiometric.verifyIdentity({
-      reason: "Unlock the Chinese House POS",
+      reason: "Unlock the Classic Chinese POS",
       title: "Biometric Login",
       subtitle: "Use your fingerprint or face to login",
       description: "Fast and secure access to your dashboard",

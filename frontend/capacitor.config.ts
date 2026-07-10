@@ -1,11 +1,11 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.thechinesehouse.pos',
-  appName: 'The Chinese House',
+  appId: 'com.classicchinese.pos',
+  appName: 'Classic Chinese',
   webDir: 'dist',
   server: {
-    url: 'https://the-chinese-house.vercel.app/dashboard',
+    url: 'https://classic-chinese.vercel.app/dashboard',
     cleartext: true
   }
 };
