@@ -921,18 +921,18 @@ const DashboardContent = ({ user, onLogout }: { user: AuthUser, onLogout: () => 
                       })
                       .map((s) => (
                         <button
-                        key={s}
-                        onClick={() => setStatusFilter(s)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${statusFilter === s
-                          ? "bg-primary text-primary-foreground shadow-md"
-                          : "bg-muted text-muted-foreground hover:bg-muted/80"
-                          }`}
-                      >
-                        {s === "all" ? "All" : statusConfig[s].label}
-                        {s !== "all" &&
-                          ` (${orders.filter((o) => o.status === s).length})`}
-                      </button>
-                    ))}
+                          key={s}
+                          onClick={() => setStatusFilter(s)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${statusFilter === s
+                            ? "bg-primary text-primary-foreground shadow-md"
+                            : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            }`}
+                        >
+                          {s === "all" ? "All" : statusConfig[s].label}
+                          {s !== "all" &&
+                            ` (${orders.filter((o) => o.status === s).length})`}
+                        </button>
+                      ))}
                   </div>
 
                   {/* Source filter dropdown */}
@@ -950,10 +950,10 @@ const DashboardContent = ({ user, onLogout }: { user: AuthUser, onLogout: () => 
                       onChange={(e) => setSourceFilter(e.target.value)}
                       className="bg-card border border-border text-foreground rounded-lg px-3 py-1.5 text-xs font-bold focus:ring-2 focus:ring-primary outline-none min-w-[140px] cursor-pointer"
                     >
-                      <option value="all">🌐 All Sources</option>
-                      <option value="counter">🛍️ Counter Orders</option>
+                      <option value="all">All Sources</option>
+                      <option value="counter">Counter Orders</option>
                       {activeTableNumbers.map(t => (
-                        <option key={t} value={t}>🪑 Table {t}</option>
+                        <option key={t} value={t}>Table {t}</option>
                       ))}
                     </select>
                   </div>
