@@ -135,99 +135,106 @@ router.post("/eod-report", async (req, res) => {
       return res.status(500).json({ error: "RESEND_API_KEY is not configured." });
     }
 
-    // 2. Fetch Active Businesses and Admin Emails
-    const businessQuery = `
-      SELECT b.id as business_id, bs.restaurant_name, a.email
-      FROM businesses b
-      JOIN business_settings bs ON bs.business_id = b.id
-      JOIN admin_account a ON a.business_id = b.id
-      WHERE b.is_active = true AND a.email IS NOT NULL AND a.email != ''
-    `;
-    const businessRes = await pool.query(businessQuery);
-    const businesses = businessRes.rows;
+    // Respond immediately to prevent cron-job.org timeout
+    res.status(202).json({ message: "EOD report job accepted and processing in background." });
 
-    if (businesses.length === 0) {
-      return res.status(200).json({ message: "No active businesses with configured admin emails found." });
-    }
-
-    // 3. Process each business
-    const results = [];
-    for (const b of businesses) {
-      // Query Sales
-      const salesQuery = `
-        SELECT
-          COUNT(*) as total_orders,
-          COALESCE(SUM(total), 0) as gross_revenue,
-          COALESCE(SUM(discount), 0) as total_discount,
-          COALESCE(SUM(cgst + sgst), 0) as total_tax,
-          COALESCE(SUM(
-            CASE 
-              WHEN payment_method IN ('online', 'upi', 'card') THEN total 
-              WHEN payment_method = 'split' THEN split_upi 
-              ELSE 0 
-            END
-          ), 0) as online_sales,
-          COALESCE(SUM(
-            CASE 
-              WHEN payment_method = 'cash' THEN total 
-              WHEN payment_method = 'split' THEN split_cash 
-              ELSE 0 
-            END
-          ), 0) as cash_sales,
-          COALESCE(SUM(CASE WHEN order_type = 'dine-in' THEN total ELSE 0 END), 0) as dine_in_sales,
-          COALESCE(SUM(CASE WHEN order_type = 'takeaway' THEN total ELSE 0 END), 0) as takeaway_sales,
-          COALESCE(SUM(CASE WHEN order_type = 'delivery' THEN total ELSE 0 END), 0) as delivery_sales
-        FROM orders
-        WHERE business_id = $1 
-          AND status = 'completed'
-          AND (created_at AT TIME ZONE 'Asia/Kolkata')::date = (NOW() AT TIME ZONE 'Asia/Kolkata')::date
-      `;
-      const salesRes = await pool.query(salesQuery, [b.business_id]);
-      const salesData = salesRes.rows[0];
-
-      // Query Cancellations
-      const cancelQuery = `
-        SELECT 
-          COUNT(*) as cancelled_orders, 
-          COALESCE(SUM(total), 0) as cancelled_value
-        FROM orders
-        WHERE business_id = $1 
-          AND status = 'cancelled'
-          AND (created_at AT TIME ZONE 'Asia/Kolkata')::date = (NOW() AT TIME ZONE 'Asia/Kolkata')::date
-      `;
-      const cancelRes = await pool.query(cancelQuery, [b.business_id]);
-      const cancelData = cancelRes.rows[0];
-
-      // Generate PDF
-      const pdfBuffer = await generatePDFBuffer(b.restaurant_name, salesData, cancelData);
-      
-      const dateStr = new Date().toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" });
-      const filename = `Z-Report-${b.restaurant_name.replace(/[^a-z0-9]/gi, '_')}-${dateStr.replaceAll('/', '-')}.pdf`;
-
-      // Send Email
+    // Run heavy lifting in background
+    (async () => {
       try {
-        await resend.emails.send({
-          from: "Classic Chinese System <onboarding@resend.dev>", // Replace with verified domain if available
-          to: b.email,
-          subject: `Daily Z-Report: ${b.restaurant_name} (${dateStr})`,
-          text: `Please find attached the automated End-of-Day Z-Report for ${dateStr}.`,
-          attachments: [
-            {
-              filename: filename,
-              content: pdfBuffer,
-            },
-          ],
-        });
-        results.push({ business: b.restaurant_name, email: b.email, status: "sent" });
-      } catch (emailErr) {
-        console.error(`Failed to send email to ${b.email} for ${b.restaurant_name}:`, emailErr);
-        results.push({ business: b.restaurant_name, email: b.email, status: "failed", error: emailErr.message });
-      }
-    }
+        // 2. Fetch Active Businesses and Admin Emails
+        const businessQuery = `
+          SELECT b.id as business_id, bs.restaurant_name, a.email
+          FROM businesses b
+          JOIN business_settings bs ON bs.business_id = b.id
+          JOIN admin_account a ON a.business_id = b.id
+          WHERE b.is_active = true AND a.email IS NOT NULL AND a.email != ''
+        `;
+        const businessRes = await pool.query(businessQuery);
+        const businesses = businessRes.rows;
 
-    res.status(200).json({ message: "EOD reports processed", results });
+        if (businesses.length === 0) {
+          console.log("No active businesses with configured admin emails found for EOD report.");
+          return;
+        }
+
+        // 3. Process each business
+        for (const b of businesses) {
+          // Query Sales
+          const salesQuery = `
+            SELECT
+              COUNT(*) as total_orders,
+              COALESCE(SUM(total), 0) as gross_revenue,
+              COALESCE(SUM(discount), 0) as total_discount,
+              COALESCE(SUM(cgst + sgst), 0) as total_tax,
+              COALESCE(SUM(
+                CASE 
+                  WHEN payment_method IN ('online', 'upi', 'card') THEN total 
+                  WHEN payment_method = 'split' THEN split_upi 
+                  ELSE 0 
+                END
+              ), 0) as online_sales,
+              COALESCE(SUM(
+                CASE 
+                  WHEN payment_method = 'cash' THEN total 
+                  WHEN payment_method = 'split' THEN split_cash 
+                  ELSE 0 
+                END
+              ), 0) as cash_sales,
+              COALESCE(SUM(CASE WHEN order_type = 'dine-in' THEN total ELSE 0 END), 0) as dine_in_sales,
+              COALESCE(SUM(CASE WHEN order_type = 'takeaway' THEN total ELSE 0 END), 0) as takeaway_sales,
+              COALESCE(SUM(CASE WHEN order_type = 'delivery' THEN total ELSE 0 END), 0) as delivery_sales
+            FROM orders
+            WHERE business_id = $1 
+              AND status = 'completed'
+              AND (created_at AT TIME ZONE 'Asia/Kolkata')::date = (NOW() AT TIME ZONE 'Asia/Kolkata')::date
+          `;
+          const salesRes = await pool.query(salesQuery, [b.business_id]);
+          const salesData = salesRes.rows[0];
+
+          // Query Cancellations
+          const cancelQuery = `
+            SELECT 
+              COUNT(*) as cancelled_orders, 
+              COALESCE(SUM(total), 0) as cancelled_value
+            FROM orders
+            WHERE business_id = $1 
+              AND status = 'cancelled'
+              AND (created_at AT TIME ZONE 'Asia/Kolkata')::date = (NOW() AT TIME ZONE 'Asia/Kolkata')::date
+          `;
+          const cancelRes = await pool.query(cancelQuery, [b.business_id]);
+          const cancelData = cancelRes.rows[0];
+
+          // Generate PDF
+          const pdfBuffer = await generatePDFBuffer(b.restaurant_name, salesData, cancelData);
+          
+          const dateStr = new Date().toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" });
+          const filename = `Z-Report-${b.restaurant_name.replace(/[^a-z0-9]/gi, '_')}-${dateStr.replaceAll('/', '-')}.pdf`;
+
+          // Send Email
+          try {
+            await resend.emails.send({
+              from: "Classic Chinese System <onboarding@resend.dev>", // Replace with verified domain if available
+              to: b.email,
+              subject: `Daily Z-Report: ${b.restaurant_name} (${dateStr})`,
+              text: `Please find attached the automated End-of-Day Z-Report for ${dateStr}.`,
+              attachments: [
+                {
+                  filename: filename,
+                  content: pdfBuffer,
+                },
+              ],
+            });
+            console.log(`Successfully sent EOD report to ${b.email}`);
+          } catch (emailErr) {
+            console.error(`Failed to send email to ${b.email} for ${b.restaurant_name}:`, emailErr);
+          }
+        }
+      } catch (backgroundErr) {
+        console.error("Error in background EOD cron job:", backgroundErr);
+      }
+    })();
   } catch (error) {
-    console.error("Error in EOD cron job:", error);
+    console.error("Error in EOD cron endpoint:", error);
     res.status(500).json({ error: "Internal server error." });
   }
 });
@@ -246,85 +253,91 @@ router.post("/weekly-menu-report", async (req, res) => {
       return res.status(500).json({ error: "RESEND_API_KEY is not configured." });
     }
 
-    const businessQuery = `
-      SELECT b.id as business_id, bs.restaurant_name, a.email
-      FROM businesses b
-      JOIN business_settings bs ON bs.business_id = b.id
-      JOIN admin_account a ON a.business_id = b.id
-      WHERE b.is_active = true AND a.email IS NOT NULL AND a.email != ''
-    `;
-    const businessRes = await pool.query(businessQuery);
-    const businesses = businessRes.rows;
+    // Respond immediately
+    res.status(202).json({ message: "Weekly menu report job accepted and processing in background." });
 
-    if (businesses.length === 0) {
-      return res.status(200).json({ message: "No active businesses with configured admin emails found." });
-    }
-
-    const results = [];
-    for (const b of businesses) {
-      // Top 3 Winners
-      const winnersQuery = `
-        SELECT oi.name, SUM(oi.quantity)::int as total_sold
-        FROM order_items oi
-        JOIN orders o ON o.id = oi.order_id
-        WHERE o.business_id = $1 AND o.status = 'completed'
-          AND o.created_at >= NOW() - INTERVAL '7 days'
-        GROUP BY oi.name
-        ORDER BY total_sold DESC
-        LIMIT 3
-      `;
-      const winnersRes = await pool.query(winnersQuery, [b.business_id]);
-      const winners = winnersRes.rows;
-
-      // Bottom 3 Losers
-      const losersQuery = `
-        SELECT oi.name, SUM(oi.quantity)::int as total_sold
-        FROM order_items oi
-        JOIN orders o ON o.id = oi.order_id
-        WHERE o.business_id = $1 AND o.status = 'completed'
-          AND o.created_at >= NOW() - INTERVAL '7 days'
-        GROUP BY oi.name
-        ORDER BY total_sold ASC
-        LIMIT 3
-      `;
-      const losersRes = await pool.query(losersQuery, [b.business_id]);
-      const losers = losersRes.rows;
-
-      if (winners.length === 0 && losers.length === 0) {
-        continue; // No sales this week
-      }
-
-      const winnersHtml = winners.map(w => `<li><strong>${w.name}</strong> - Sold ${w.total_sold} units 🏆</li>`).join('');
-      const losersHtml = losers.map(l => `<li><strong>${l.name}</strong> - Sold ${l.total_sold} units 📉</li>`).join('');
-
+    (async () => {
       try {
-        await resend.emails.send({
-          from: "Classic Chinese System <onboarding@resend.dev>",
-          to: b.email,
-          subject: `Weekly Menu Performance: ${b.restaurant_name}`,
-          html: `
-            <h2>📊 Weekly Menu Winners & Losers</h2>
-            <p>Here is your menu performance summary for the last 7 days.</p>
-            
-            <h3 style="color: #16a34a;">Top 3 Best Sellers</h3>
-            <ul>${winnersHtml || "<li>No sales data available.</li>"}</ul>
-            
-            <h3 style="color: #dc2626;">Bottom 3 Worst Sellers</h3>
-            <ul>${losersHtml || "<li>No sales data available.</li>"}</ul>
-            
-            <p><strong>Pro Tip:</strong> Consider running a promotion on your worst sellers or removing them from the menu to save inventory costs!</p>
-          `,
-        });
-        results.push({ business: b.restaurant_name, email: b.email, status: "sent" });
-      } catch (emailErr) {
-        console.error(`Failed to send weekly report to ${b.email}:`, emailErr);
-        results.push({ business: b.restaurant_name, email: b.email, status: "failed", error: emailErr.message });
-      }
-    }
+        const businessQuery = `
+          SELECT b.id as business_id, bs.restaurant_name, a.email
+          FROM businesses b
+          JOIN business_settings bs ON bs.business_id = b.id
+          JOIN admin_account a ON a.business_id = b.id
+          WHERE b.is_active = true AND a.email IS NOT NULL AND a.email != ''
+        `;
+        const businessRes = await pool.query(businessQuery);
+        const businesses = businessRes.rows;
 
-    res.status(200).json({ message: "Weekly menu reports processed", results });
+        if (businesses.length === 0) {
+          console.log("No active businesses with configured admin emails found for weekly report.");
+          return;
+        }
+
+        for (const b of businesses) {
+          // Top 3 Winners
+          const winnersQuery = `
+            SELECT oi.name, SUM(oi.quantity)::int as total_sold
+            FROM order_items oi
+            JOIN orders o ON o.id = oi.order_id
+            WHERE o.business_id = $1 AND o.status = 'completed'
+              AND o.created_at >= NOW() - INTERVAL '7 days'
+            GROUP BY oi.name
+            ORDER BY total_sold DESC
+            LIMIT 3
+          `;
+          const winnersRes = await pool.query(winnersQuery, [b.business_id]);
+          const winners = winnersRes.rows;
+
+          // Bottom 3 Losers
+          const losersQuery = `
+            SELECT oi.name, SUM(oi.quantity)::int as total_sold
+            FROM order_items oi
+            JOIN orders o ON o.id = oi.order_id
+            WHERE o.business_id = $1 AND o.status = 'completed'
+              AND o.created_at >= NOW() - INTERVAL '7 days'
+            GROUP BY oi.name
+            ORDER BY total_sold ASC
+            LIMIT 3
+          `;
+          const losersRes = await pool.query(losersQuery, [b.business_id]);
+          const losers = losersRes.rows;
+
+          if (winners.length === 0 && losers.length === 0) {
+            continue; // No sales this week
+          }
+
+          const winnersHtml = winners.map(w => `<li><strong>${w.name}</strong> - Sold ${w.total_sold} units 🏆</li>`).join('');
+          const losersHtml = losers.map(l => `<li><strong>${l.name}</strong> - Sold ${l.total_sold} units 📉</li>`).join('');
+
+          try {
+            await resend.emails.send({
+              from: "Classic Chinese System <onboarding@resend.dev>",
+              to: b.email,
+              subject: `Weekly Menu Performance: ${b.restaurant_name}`,
+              html: `
+                <h2>📊 Weekly Menu Winners & Losers</h2>
+                <p>Here is your menu performance summary for the last 7 days.</p>
+                
+                <h3 style="color: #16a34a;">Top 3 Best Sellers</h3>
+                <ul>${winnersHtml || "<li>No sales data available.</li>"}</ul>
+                
+                <h3 style="color: #dc2626;">Bottom 3 Worst Sellers</h3>
+                <ul>${losersHtml || "<li>No sales data available.</li>"}</ul>
+                
+                <p><strong>Pro Tip:</strong> Consider running a promotion on your worst sellers or removing them from the menu to save inventory costs!</p>
+              `,
+            });
+            console.log(`Successfully sent weekly report to ${b.email}`);
+          } catch (emailErr) {
+            console.error(`Failed to send weekly report to ${b.email}:`, emailErr);
+          }
+        }
+      } catch (backgroundErr) {
+        console.error("Error in background weekly menu report cron job:", backgroundErr);
+      }
+    })();
   } catch (error) {
-    console.error("Error in weekly menu report cron job:", error);
+    console.error("Error in weekly menu report cron endpoint:", error);
     res.status(500).json({ error: "Internal server error." });
   }
 });
